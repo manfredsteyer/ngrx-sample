@@ -1,0 +1,81 @@
+<div class="row">
+<div class="card">
+
+  <h1>Flight Search</h1>
+
+  <form #f="ngForm">
+
+  <div class="form-group">
+    <label for="from">From:</label>
+    <input
+      [(ngModel)]="from"
+      name="from"
+      minlength="3"
+      maxlength="30"
+      pattern="[A-Za-zöäüßÖÄÜ]*"
+      id="from"
+      class="form-control">
+
+    <div *ngIf="!f?.controls['from']?.valid && f?.controls['from']?.dirty">
+      ... Fehler ...
+    </div>
+
+    <div *ngIf="f?.controls['from']?.hasError('minlength')">
+      ... min ...
+    </div>
+
+    <div *ngIf="f?.controls['from']?.hasError('maxlength')">
+      ... maxlength ...
+    </div>
+
+    <div *ngIf="f?.controls['from']?.hasError('pattern')">
+      ... pattern ...
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>To:</label>
+    <input
+      name="to"
+      [(ngModel)]="to"
+      class="form-control">
+  </div>
+
+  <div class="form-group">
+    <button (click)="search()" class="btn btn-default">Search</button>
+
+    <button *ngIf="flights.length > 0" (click)="delay()" class="btn btn-default">Delay</button>
+  </div>
+  </form>
+</div>
+</div>
+
+
+<!--
+<div class="card" *ngIf="flights.length > 0">
+
+  <table class="table table-condensed">
+    <tr *ngFor="let flight of flights" [ngClass]="{ 'active': flight == selectedFlight }">
+      <td>{{flight.id}}</td>
+      <td>{{flight.from | city:'short'}}</td>
+      <td>{{flight.to | city:'long'}}</td>
+      <td>{{flight.date | date:'dd.MM.yyyy HH:mm'}}</td>
+      <td><a (click)="select(flight)">Select</a></td>
+    </tr>
+  </table>
+</div>
+-->
+<div class="row">
+<div *ngFor="let f of flights" class="col col-xs-12 col-sm-6 col-md-4 col-lg-3">
+  <flight-card
+    [item]="f"
+    [(selected)]="basket[f.id]"></flight-card>
+</div>
+</div>
+
+<div class="row">
+  <div class="card">
+    <h2>Basket</h2>
+    <pre>{{ basket | json }}</pre>
+  </div>
+</div>

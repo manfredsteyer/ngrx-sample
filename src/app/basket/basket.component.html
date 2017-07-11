@@ -1,0 +1,25 @@
+<div class="gray-bg"></div>
+
+<div class="flight-history">
+
+  <div class="flight-history-inside card">
+
+    <h2>Your Basket [<a (click)="close()">x</a>]</h2>
+
+    <ul class="list-group">
+
+      <li class="list-group-item" *ngIf="flights.length == 0">
+        Your basket is empty!
+      </li>
+
+      <li class="list-group-item" *ngFor="let f of flights">
+        <p>
+          Id: {{f.id}}, {{f.from}} - {{f.to}}
+        </p>
+        <p>
+          {{f.date | date: 'dd.MM.yyyy HH:mm'}}
+        </p>
+      </li>
+    </ul>
+  </div>
+</div>

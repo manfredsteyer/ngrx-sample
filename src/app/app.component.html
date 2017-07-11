@@ -1,0 +1,31 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+
+  <div class="navbar-header">
+    <a class="navbar-brand" href="#">Holiday42</a>
+  </div>
+
+  <ul class="nav navbar-nav">
+    <li><a routerLink="home">Home</a></li>
+    <li><a routerLink="flight-booking/flight-search">Flight Booking</a></li>
+
+    <li><a [routerLink]="[{ outlets: { 'aux': 'basket' }}]">Show Basket</a></li>
+    <li><a [routerLink]="[{ outlets: { 'aux': null }}]">Hide Basket</a></li>
+
+  </ul>
+</nav>
+
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
+
+<!-- 2nd outlet -->
+<router-outlet name="aux"></router-outlet>
+
+<div class="loading-indicator" *ngIf="showWaitInfo">
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+</div>
+
+
