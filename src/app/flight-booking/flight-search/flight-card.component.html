@@ -3,11 +3,13 @@
 
   <h2>{{item.from}} - {{item.to}}</h2>
   <p>Flugnr. #{{item.id}}</p>
+  <p>Delayed: {{item.delayed ? 'ja' : 'nein'}}</p>
   <p>Datum: {{item.date | date:'dd.MM.yyyy HH:mm'}}</p>
 
   <p>
     <button class="btn btn-default" *ngIf="!selected" (click)="select()">Auswählen</button>
     <button class="btn btn-default" *ngIf="selected" (click)="deselect()">Entfernen</button>
     <a class="btn btn-default" [routerLink]="['../flight-edit', item.id, {showDetails: true}]">Edit</a>
+    <ng-content></ng-content>
   </p>
 </div>

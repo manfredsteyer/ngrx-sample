@@ -5,12 +5,16 @@ import { Http, Headers, URLSearchParams } from '@angular/http';
 import { Injectable, Inject } from '@angular/core';
 import { BASE_URL } from '../../app.tokens';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { AppState } from '../../model/app.state';
+import { Store } from '@ngrx/store';
+import { FlightLoadedAction } from '../../model/flights/flights.actions';
 
 @Injectable()
 export class FlightService {
 
   constructor(
     private http: Http,
+    private store: Store<AppState>,
     @Inject(BASE_URL) private baseUrl: string,
     private oauthService: OAuthService) {
   }
@@ -18,11 +22,11 @@ export class FlightService {
   flights: Flight[] = [];
 
   delay(): void {
-
+    // TODO: ngrx, dispatch action
     const ONE_MINUTE = 1000 * 60;
 
     if (this.flights.length == 0) return;
-    
+
     let f = this.flights[0];
     let date = new Date(f.date);
     date.setTime(date.getTime() + 15 * ONE_MINUTE)
@@ -31,7 +35,7 @@ export class FlightService {
   }
 
   find(from: string, to: string): void {
-    
+
     //let url = this.baseUrl + '/secureflight/byRoute';
     let url = this.baseUrl + '/flight';
 
@@ -50,15 +54,17 @@ export class FlightService {
         .subscribe(
           flights => {
             this.flights = flights;
+            this.store.dispatch(new FlightLoadedAction(flights));
           },
           err => {
-            console.error(err)
+            console.error(err);
+            // TODO: Store benachrichtigen
           }
         );
   }
 
   findById(id: string): Observable<Flight> {
-    
+
     //let url = this.baseUrl + '/secureflight/byRoute';
     let url = this.baseUrl + '/flight';
 
@@ -76,7 +82,7 @@ export class FlightService {
   }
 
   save(flight: Flight): Observable<Flight> {
-    
+
     //let url = this.baseUrl + '/secureflight/byRoute';
     let url = this.baseUrl + '/flight';
 
