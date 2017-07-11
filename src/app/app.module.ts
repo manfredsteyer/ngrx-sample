@@ -19,6 +19,9 @@ import { FlightBookingModule } from "app/flight-booking/flight-booking.module";
 
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 export function createLoader(http: Http) {
     return new TranslateHttpLoader (http, './assets/i18n/', '.json');
@@ -39,7 +42,10 @@ export function createLoader(http: Http) {
             deps: [Http]
         }
     }),
-    OAuthModule.forRoot()
+    OAuthModule.forRoot(),
+    StoreModule.provideStore({}),
+    // EffectsModule.run( ... )
+    StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   declarations: [
     AppComponent,
