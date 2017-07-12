@@ -25,6 +25,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { appReducer } from './model/app.reducer';
 import { initialAppState } from './model/app.state';
 import { FlightEffects } from './model/flights/flights.effects';
+import { RouterStoreModule } from '@ngrx/router-store';
 
 export function createLoader(http: Http) {
     return new TranslateHttpLoader (http, './assets/i18n/', '.json');
@@ -47,6 +48,7 @@ export function createLoader(http: Http) {
     }),
     OAuthModule.forRoot(),
     StoreModule.provideStore(appReducer, initialAppState),
+    RouterStoreModule.connectRouter(),
     EffectsModule.run(FlightEffects),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
