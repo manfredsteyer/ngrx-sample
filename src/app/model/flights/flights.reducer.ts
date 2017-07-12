@@ -38,6 +38,9 @@ function flightStateChanged(state: FlightState, action: FlightStateChangedAction
     statistics: calcStatistics(newFlights)
   }
 
+  // Use this return to make ngrx-freeze to throw an error
+  // state.flights[index].delayed = newFlight.delayed;
+  // return state;
 }
 
 function flightsLoaded(state: FlightState, action: FlightLoadedAction): FlightState {
