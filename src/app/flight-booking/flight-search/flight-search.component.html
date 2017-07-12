@@ -69,7 +69,8 @@
 <div *ngFor="let f of flights | async" class="col col-xs-12 col-sm-6 col-md-4 col-lg-3">
   <flight-card
     [item]="f"
-    [(selected)]="basket[f.id]">
+    [selected]="(basket | async)[f.id]"
+    (selectedChange)="toggleBasket(f, $event)">
     <button class="btn btn-default" (click)="changeDelayed(f)">Toogle State</button>
   </flight-card>
 </div>
@@ -82,10 +83,9 @@
   </div>
 </div>
 
-
 <div class="row">
   <div class="card">
     <h2>Basket</h2>
-    <pre>{{ basket | json }}</pre>
+    <pre>{{ basket | async | json }}</pre>
   </div>
 </div>

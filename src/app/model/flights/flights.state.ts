@@ -3,6 +3,7 @@ import { Flight } from '../../entities/flight';
 export interface FlightState {
   flights: Flight[];
   statistics: FlightStatistics;
+  basket: object;
 }
 
 export interface FlightStatistics {
@@ -15,5 +16,6 @@ export const initialFlightState: FlightState = {
   statistics: {
     countDelayed: 0,
     countInTime: 0
-  }
+  },
+  basket: {}
 };

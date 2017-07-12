@@ -6,7 +6,10 @@ import { NgForm } from '@angular/forms';
 import { Observable, Observer } from 'rxjs';
 import { AppState } from '../../model/app.state';
 import { Store } from '@ngrx/store';
-import { FlightLoadAction, FlightStateChangedAction } from '../../model/flights/flights.actions';
+import {
+  FlightAddBasketAction, FlightLoadAction, FlightRemoveBasketAction,
+  FlightStateChangedAction
+} from '../../model/flights/flights.actions';
 import { FlightStatistics } from '../../model/flights/flights.state';
 
 @Component({
@@ -22,13 +25,7 @@ export class FlightSearchComponent {
 
   flights: Observable<Flight[]>;
   statistics: Observable<FlightStatistics>;
-
-  // todo: ngrx, move to store
-  basket: any = {
-    "3": true,
-    "4": false,
-    "5": true
-  };
+  basket: Observable<object>;
 
   constructor(
     private flightService: FlightService,
@@ -36,6 +33,7 @@ export class FlightSearchComponent {
 
     this.flights = this.store.select(f => f.flights.flights);
     this.statistics = this.store.select(f => f.flights.statistics);
+    this.basket = this.store.select(f => f.flights.basket);
   }
 
   changeDelayed(flight: Flight): void {
@@ -47,12 +45,15 @@ export class FlightSearchComponent {
   }
 
   search(): void {
-      this.store.dispatch(new FlightLoadAction({from: this.from, to: this.to}));
+    this.store.dispatch(new FlightLoadAction({from: this.from, to: this.to}));
   }
 
-  // todo: ngrx, dispatch action
-  delay(): void {
-    this.flightService.delay();
+  toggleBasket(flight: Flight, added: boolean) {
+    if (added) {
+      this.store.dispatch(new FlightAddBasketAction(flight));
+    }
+    else {
+      this.store.dispatch(new FlightRemoveBasketAction(flight));
+    }
   }
-
 }
