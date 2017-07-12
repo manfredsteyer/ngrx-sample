@@ -34,7 +34,7 @@ export class FlightService {
 
   }
 
-  find(from: string, to: string): void {
+  find(from: string, to: string): Observable<Flight[]> {
 
     //let url = this.baseUrl + '/secureflight/byRoute';
     let url = this.baseUrl + '/flight';
@@ -47,20 +47,10 @@ export class FlightService {
     headers.set('Accept', 'application/json');
     //headers.set('Authorization', this.oauthService.authorizationHeader());
 
-    this
+    return this
         .http
         .get(url, {headers, search})
-        .map(resp => resp.json())
-        .subscribe(
-          flights => {
-            this.flights = flights;
-            this.store.dispatch(new FlightLoadedAction(flights));
-          },
-          err => {
-            console.error(err);
-            // TODO: Store benachrichtigen
-          }
-        );
+        .map(resp => resp.json());
   }
 
   findById(id: string): Observable<Flight> {

@@ -6,7 +6,7 @@ import { NgForm } from '@angular/forms';
 import { Observable, Observer } from 'rxjs';
 import { AppState } from '../../model/app.state';
 import { Store } from '@ngrx/store';
-import { FlightStateChangedAction } from '../../model/flights/flights.actions';
+import { FlightLoadAction, FlightStateChangedAction } from '../../model/flights/flights.actions';
 import { FlightStatistics } from '../../model/flights/flights.state';
 
 @Component({
@@ -47,8 +47,7 @@ export class FlightSearchComponent {
   }
 
   search(): void {
-      // todo: ngrx, trigger effects
-      this.flightService.find(this.from, this.to);
+      this.store.dispatch(new FlightLoadAction({from: this.from, to: this.to}));
   }
 
   // todo: ngrx, dispatch action
